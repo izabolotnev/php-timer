@@ -10,7 +10,7 @@ To add this package as a local, per-project dependency to your project, simply a
 
     {
         "require": {
-            "izabolotnev/php-timer": "~2.0"
+            "izabolotnev/php-timer": "~2.1"
         }
     }
 
@@ -19,6 +19,8 @@ To add this package as a local, per-project dependency to your project, simply a
 ### Basic Timing
 
 ```php
+use izabolotnev\Timer;
+
 Timer::start();
 
 // ...
@@ -31,6 +33,8 @@ print Timer::secondsToTimeString($time);
 or
 
 ```php
+use izabolotnev\Timer;
+
 Timer::start();
 
 // ...
@@ -40,3 +44,26 @@ print Timer::stopAndFormat();
 The code above yields the output below:
 
     0 ms.
+
+### Advanced usage
+
+```php
+use izabolotnev\Timer;
+
+Timer::addNewTimer('myTimer');
+Timer::start();
+
+sleep(2);
+
+Timer::start('myTimer');
+echo 'Default: ', Timer::stopAndFormat(), PHP_EOL;
+
+sleep(3);
+
+echo 'Custom: ', Timer::stopAndFormat('myTimer'), PHP_EOL;
+```
+The code above yields the output below:
+
+    Default: 2 s.
+    Custom: 3 s.
+
