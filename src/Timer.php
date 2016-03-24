@@ -8,6 +8,8 @@ namespace izabolotnev;
  */
 class Timer
 {
+    const DEFAULT_TIMER = 'default';
+    
     /**
      * @var array
      */
@@ -21,24 +23,37 @@ class Timer
     /**
      * @var array
      */
-    static protected $startTimes = [];
+    static protected $startTimes = [
+        self::DEFAULT_TIMER => [],
+    ];
+
+    /**
+     * @param string $timerName
+     */
+    public static function addNewTimer($timerName)
+    {
+        self::$startTimes[$timerName] = [];
+    }
 
     /**
      * Starts the timer.
+     *
+     * @param string $timerName
      */
-    public static function start()
+    public static function start($timerName = self::DEFAULT_TIMER)
     {
-        array_push(self::$startTimes, microtime(true));
+        array_push(self::$startTimes[$timerName], microtime(true));
     }
 
     /**
      * Stops the timer and returns the elapsed time.
      *
+     * @param string $timerName
      * @return float
      */
-    public static function stop()
+    public static function stop($timerName = self::DEFAULT_TIMER)
     {
-        return microtime(true) - array_pop(self::$startTimes);
+        return microtime(true) - array_pop(self::$startTimes[$timerName]);
     }
 
     /**
@@ -64,10 +79,11 @@ class Timer
     }
 
     /**
+     * @param string $timerName
      * @return string
      */
-    public static function stopAndFormat()
+    public static function stopAndFormat($timerName = self::DEFAULT_TIMER)
     {
-        return self::secondsToTimeString(self::stop());
+        return self::secondsToTimeString(self::stop($timerName));
     }
 }
